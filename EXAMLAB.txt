@@ -1,0 +1,130 @@
+create database LAB;
+use lab;
+
+
+--  creating dept table-------
+create table DEPT(
+DEPTNO int(2),
+DNAME varchar(15),
+LOC varchar(15)
+);
+-- inserting vaslues in dept table-----
+ insert into DEPT values
+ (10,'ACCOUNTING','NEW YORK'),
+ (20,'REASEARCH','DALLAS'),
+ (30,'SALES','CHICAGO'),
+ (40,'OPERATIONS','BOSTON');
+ 
+ 
+ -- creating Emp table-----
+ create table EMP(
+ EMPNO int,
+ EMPNAME varchar(10),
+ JOB varchar(9),
+ HIREDATE date,
+ SAL float(7,2),
+ COMM float(7,2),
+ DEPTNO int(2)
+ );
+ 
+ -- insert values in emp table
+ insert into EMP values
+(7839,'KING','MANAGER','1991-11-17',5000,null,10), 
+(7698,'BLACKE','CLERK','1981-05-01',2850,null,30), 
+(7782,'CLEARK','MANAGER','1981-06-09',2450,null,10),  
+(7566,'JONES','CLERK','1981-04-02',2975,null,20),
+(7654,'MARTIN','SALESMAN','1981-09-28',1250,1400,30),
+(7499,'ALLEN','SALESMAN','1981-02-20',1600,300,30); 
+ 
+-- commands-- 3---
+ select * from EMP where SAL BETWEEN 2500 AND 5000;  
+ 
+ 
+ -- commands--4---
+ select EMPNAME from EMP order by EMPNAME desc; 
+ 
+ -- commands-- 5---
+ select JOB,lower(JOB)"JOB" from EMP; 
+ 
+ -- commands-- 6---
+ select EMPNAME, length(EMPNAME) "LENGTH" from EMP; 
+ 
+ 
+ -- command 7----
+ select DEPT.DEPTNO,count(EMP.DEPTNO)"EMPDEPT COUNT" 
+ from DEPT inner join EMP group by DEPT.DEPTNO; 
+ 
+ -- command 8----
+ select DEPT.DNAME,EMPNAME from EMP,DEPT 
+ where EMP.DEPTNO=EMP.EMPNAME;
+ 
+  select DEPT.DNAME,EMPNAME from EMP,DEPT 
+ where EMP.DEPTNO=DEPT.DEPTNO;
+ 
+ 
+ -- command 9-----  
+ select EMPNAME, instr(EMPNAME,'AR') from EMP;
+ 
+ -- command 10-----
+ select SAL,((sal*12)*0.2)"HRA" from EMP;
+ 
+ 
+ 
+ -- section 2---- 
+ -- procedure ----
+ 
+ 
+ 
+ -- function 2nd question----
+
+ 
+delimiter //
+create function FUNC1(a float , b float, c float)
+returns boolean
+deterministic
+begin
+
+if (a+b>c) and (b+c>a) and( c+a>b) then
+return true;
+else 
+return false;
+end if;
+
+end //
+delimiter ;
+
+select FUNC1(10.10,160.90,10);
+
+
+-- stored procedure ---
+
+create table TEMPP
+(
+a char (10),
+b char (10),
+reuslt char (10)
+);
+drop table temmp;
+delimiter //
+create procedure PROC1 (a char(10),b char(10))
+begin
+	 
+     declare s int (4);
+     set s=locate(a,b);
+     if(a !=0) then
+     insert into TEMPP values(a,b,'PRESENT');
+     else 
+     insert into TEMPP values(a,b,'ABSENT');
+     
+	select FUNC1(10.10,160.90,10);
+    select * from TEMPP;
+    end if;
+     end //
+     delimiter ;
+     drop procedure PROC1;
+     
+     call PROC1('DAC','DAC');
+     call PROC1('CDAC','MUMBAI');
+     -- call PROC1('DCA','CDAC');
+     select * from TEMPP;
+     drop table TEMPP;
